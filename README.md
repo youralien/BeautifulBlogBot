@@ -1,0 +1,5 @@
+Whenever you're about done writing an article, have you asked yourself questions like "How can I add designs to make my article more visually engaging?"  or "Which photo would be a great thumbnail when someone is searching for my post?"  BeatifulBlogBot is your-right-hand man when it comes to situations like these.
+
+One way the FlickrAPI could be helpful is finding beautiful images to integrate into a post.  I am using text analytics tools from Indico Data to find topics in a blog post, and using those topics, search for beautiful and relevant images. 
+
+The other use case is when a blog already has existing images attached to it.  If a blogger has added a personal image that is relevant to their story, BeautifulBlogBot will upload these images with tags associated with the topic in the post.  This way, there is an even exchange in the Flickr Photo community
