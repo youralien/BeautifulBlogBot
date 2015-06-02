@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+var _ = require('underscore');
 var path = require("path");
 var indico = require('indico.io');
 indico.apiKey = process.env.INDICO_API_KEY;
@@ -17,13 +18,18 @@ routes.analyzeText = function(req, res) {
 	console.log("text: \n", req.body.textContent);
 
 	indico.textTags(req.body.textContent)
-  .then(function(res) {
-    console.log(res);
-  }).catch(function(err) {
-    console.warn(err);
-  });
-	// do indico text analysis!
-	res.status(200).end();
+	  .then(function(res) {
+	    // sort the results of the textTags API 
+	    sortable = _.pairs(res)
+	    sorted = sortable.sort(function(a, b) {return b[1] - a[1]});
+	    
+	    res.status(200).json({"sorted": sorted});
+
+	  }).catch(function(err) {
+	    console.warn(err);
+	    res.status(400).end();
+	  });
+
 }
 
 routes.search = function(req, res) {
