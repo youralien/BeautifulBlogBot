@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
 var path = require("path");
-
+var indico = require('indico.io');
+indico.apiKey = process.env.INDICO_API_KEY;
 var shutterstock = require('shutterstock');
  
 var api = shutterstock.v2(require("./shutterStockAuth"));
@@ -15,6 +16,12 @@ routes.home = function(req, res) {
 routes.analyzeText = function(req, res) {
 	console.log("text: \n", req.body.textContent);
 
+	indico.textTags(req.body.textContent)
+  .then(function(res) {
+    console.log(res);
+  }).catch(function(err) {
+    console.warn(err);
+  });
 	// do indico text analysis!
 	res.status(200).end();
 }
