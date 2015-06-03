@@ -15,21 +15,15 @@ routes.home = function(req, res) {
 };
 
 routes.analyzeText = function(req, res) {
-	console.log("text: \n", req.body.textContent);
-
-	indico.textTags(req.body.textContent)
-	  .then(function(res) {
-	    // sort the results of the textTags API 
-	    sortable = _.pairs(res)
-	    sorted = sortable.sort(function(a, b) {return b[1] - a[1]});
-	    
-	    res.status(200).json({"sorted": sorted});
-
+	var textContent = req.body.textContent;
+	indico.textTags(textContent)
+	  .then(function(tagProbas) {
+	    var sortedTextTags = sortObject(tagProbas);
+	    res.status(200).json({"sortedTextTags": sortedTextTags});
 	  }).catch(function(err) {
 	    console.warn(err);
-	    res.status(400).end();
+	    return;
 	  });
-
 }
 
 routes.search = function(req, res) {
@@ -55,4 +49,28 @@ module.exports = routes;
 // data: a shutterstock result.data from the shutterstock image/search API
 function previewObject(dataPoint) {
 	return dataPoint.assets.preview;
+}
+
+function sortObject(object, order) {
+	/*
+		function: sortObject
+		
+		Sorts an object by its values
+		
+		Arguments
+		---------
+		object: Javascript Object, with Key:(Numerical)Value mappings
+		order: optional, default -1.  1 == ascending vs -1 == descending order
+		
+		Returns
+		-------
+		sorted: array-like, shape (num_keys, 2)
+			the sorted object; indicies 0 and 1 map to the key and values respectively
+	 */
+	if (typeof order === 'undefined') {
+    order = -1;
+  }
+	sortable = _.pairs(object)
+	sorted = sortable.sort(function(a, b) { return order*(a[1] - b[1]) });
+	return sorted;
 }
