@@ -1,12 +1,11 @@
 var mongoose = require('mongoose');
+var _ = require('underscore');
 var path = require("path");
-
+var indico = require('indico.io');
+indico.apiKey = process.env.INDICO_API_KEY;
 var shutterstock = require('shutterstock');
  
-var api = shutterstock.v2({
-  clientId: 'c51e33f8d5ae3a980191',
-  clientSecret: '229b8cd8777e86f7a05c0cd2ab76c3a5b524f03c',
-});
+var api = shutterstock.v2(require("./shutterStockAuth"));
 
 /* DEFINE ROUTE CALLBACKS */
 var routes = {};
@@ -16,10 +15,16 @@ routes.home = function(req, res) {
 };
 
 routes.analyzeText = function(req, res) {
-	console.log("text: \n", req.body.textContent);
-
-	// do indico text analysis!
-	res.status(200).end();
+	var textContent = req.body.textContent;
+	indico.textTags(textContent)
+	  .then(function(tagProbas) {
+	    var sortedTextTags = sortObject(tagProbas);
+	    var topTopics = getTopTopics(sortedTextTags, 3)
+	    res.status(200).json({"topTopics": topTopics});
+	  }).catch(function(err) {
+	    console.warn(err);
+	    return;
+	  });
 }
 
 routes.search = function(req, res) {
@@ -45,4 +50,63 @@ module.exports = routes;
 // data: a shutterstock result.data from the shutterstock image/search API
 function previewObject(dataPoint) {
 	return dataPoint.assets.preview;
+}
+
+function sortObject(object, order) {
+	/*
+		function: sortObject
+		
+		Sorts an object by its values
+		
+		Arguments
+		---------
+		object: Javascript Object, with Key:(Numerical)Value mappings
+		order: optional, default -1.  1 == ascending vs -1 == descending order
+		
+		Returns
+		-------
+		sorted: array-like, shape (num_keys, 2)
+			the sorted object; indicies 0 and 1 map to the key and values respectively
+	 */
+	if (typeof order === 'undefined') {
+    order = -1;
+  }
+	sortable = _.pairs(object)
+	sorted = sortable.sort(function(a, b) { return order*(a[1] - b[1]) });
+	return sorted;
+}
+
+function getTopTopics(sortedTextTags, numTop) {
+  /*
+  	function: getTopTopics
+		
+		Arguments
+		---------
+		sortedTextTags: array-like, shape (num_keys, 2)
+			the sorted object; indicies 0 and 1 map to the topic and probability respectively
+
+		numTop: Number, optional, default 3
+			the number of top topics to return
+
+		Returns
+		-------
+		topTopics: array
+			array of the top topics
+   */
+  if (typeof numTop === 'undefined'){
+  	numTop = 3
+  }
+  if (typeof numTop !== 'number') {
+  	console.warn("numTop argument supplied was not a number. Using default")
+  	numTop = 3
+  }
+  if (!Array.isArray(sortedTextTags)) {
+  	console.warn("sortedTextTags should be an array of sortedTextTags")
+  	return
+  }
+  if (numTop > sortedTextTags) {
+  	console.warn("numTop is greater in length than sortedTextTags. Using all tags")
+  }
+  topTopics = sortedTextTags.slice(0, numTop).map(function(element) {return element[0]})
+  return topTopics;
 }
