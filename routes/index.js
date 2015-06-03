@@ -4,8 +4,9 @@ var path = require("path");
 var indico = require('indico.io');
 indico.apiKey = process.env.INDICO_API_KEY;
 var shutterstock = require('shutterstock');
- 
-var api = shutterstock.v2(require("./shutterStockAuth"));
+var shutterstockAPI = shutterstock.v2(require("./shutterStockAuth"));
+var Flickr = require('flickrapi');
+var flickrOptions = require(path.join('..', '/flickrOptions.js'));
 
 /* DEFINE ROUTE CALLBACKS */
 var routes = {};
@@ -19,7 +20,7 @@ routes.analyzeText = function(req, res) {
 	indico.textTags(textContent)
 	  .then(function(tagProbas) {
 	    var sortedTextTags = sortObject(tagProbas);
-	    var topTopics = getTopTopics(sortedTextTags, 3)
+	    var topTopics = getTopTopics(sortedTextTags, 5);
 	    res.status(200).json({"topTopics": topTopics});
 	  }).catch(function(err) {
 	    console.warn(err);
@@ -27,19 +28,14 @@ routes.analyzeText = function(req, res) {
 	  });
 }
 
-routes.search = function(req, res) {
-	
-	var options = {
-		query: "climate", 
-		per_page: 7
-	};
-
-	api.image.search(options, function(err, result) {
-	  // results
-	  // src can be found at result.data[i].assets.preview.url
-
-	  if (err) throw err;
-	  res.json({"previews": result.data.map(previewObject)});
+routes.searchFlickr = function(req, res) {
+	Flickr.authenticate(flickrOptions, function(error, flickr) {
+	  flickr.photos.search({
+	    text: req.query.textTag
+	  }, function(err, searchResult) {
+	    if(err) { throw new Error(err); }
+	    res.status(200).json(searchResult);
+	  });
 	});
 }
 
