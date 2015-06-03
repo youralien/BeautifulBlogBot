@@ -27,8 +27,9 @@ function registerSubmitHandlers () {
     event.preventDefault();
     var editor = event.target;
 
-    $.post('/analyzeText', {"textContent": editor.textContent}, function() {
-      alert("Success in Analyzing Text");
+    $.post('/analyzeText', {"textContent": editor.textContent}, function(data) {
+      // pick top 4 textTags and return image searches on them.
+      debugger;
     })
   });
   // $kitchen.submit(HANDLERS.makeSubmitHandler('fulfilled', CALLBACKS.success.orderFulfilled));

@@ -19,7 +19,8 @@ routes.analyzeText = function(req, res) {
 	indico.textTags(textContent)
 	  .then(function(tagProbas) {
 	    var sortedTextTags = sortObject(tagProbas);
-	    res.status(200).json({"sortedTextTags": sortedTextTags});
+	    var topTopics = getTopTopics(sortedTextTags, 3)
+	    res.status(200).json({"topTopics": topTopics});
 	  }).catch(function(err) {
 	    console.warn(err);
 	    return;
@@ -73,4 +74,39 @@ function sortObject(object, order) {
 	sortable = _.pairs(object)
 	sorted = sortable.sort(function(a, b) { return order*(a[1] - b[1]) });
 	return sorted;
+}
+
+function getTopTopics(sortedTextTags, numTop) {
+  /*
+  	function: getTopTopics
+		
+		Arguments
+		---------
+		sortedTextTags: array-like, shape (num_keys, 2)
+			the sorted object; indicies 0 and 1 map to the topic and probability respectively
+
+		numTop: Number, optional, default 3
+			the number of top topics to return
+
+		Returns
+		-------
+		topTopics: array
+			array of the top topics
+   */
+  if (typeof numTop === 'undefined'){
+  	numTop = 3
+  }
+  if (typeof numTop !== 'number') {
+  	console.warn("numTop argument supplied was not a number. Using default")
+  	numTop = 3
+  }
+  if (!Array.isArray(sortedTextTags)) {
+  	console.warn("sortedTextTags should be an array of sortedTextTags")
+  	return
+  }
+  if (numTop > sortedTextTags) {
+  	console.warn("numTop is greater in length than sortedTextTags. Using all tags")
+  }
+  topTopics = sortedTextTags.slice(0, numTop).map(function(element) {return element[0]})
+  return topTopics;
 }
