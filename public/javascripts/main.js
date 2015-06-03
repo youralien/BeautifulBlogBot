@@ -28,8 +28,12 @@ function registerSubmitHandlers () {
     var editor = event.target;
 
     $.post('/analyzeText', {"textContent": editor.textContent}, function(data) {
-      // pick top 4 textTags and return image searches on them.
-      debugger;
+      data.topTopics.forEach(function(topic) {
+
+        $.get('/search/flickr', {textTag: topic}, function(searchResult) {
+          appendPhotos(searchResult);
+        })
+      })
     })
   });
   // $kitchen.submit(HANDLERS.makeSubmitHandler('fulfilled', CALLBACKS.success.orderFulfilled));
@@ -38,4 +42,26 @@ function registerSubmitHandlers () {
   // $addIngr.submit(HANDLERS.makeSubmitHandler('addIngredient', CALLBACKS.success.newIngredient, true));
   // $editIngr.click(HANDLERS.click.edit);
   // $orderOpt.click(HANDLERS.click.orderOpt);
+}
+
+// To have similar functionality as Python's String.format function
+String.prototype.format = function () {
+  var i = 0, args = arguments;
+  return this.replace(/{}/g, function () {
+    return typeof args[i] != 'undefined' ? args[i++] : '';
+  });
+};
+
+function appendPhotos(data) {
+  $photos = $("#photos");
+  data.photos.photo.forEach(function(photo) {
+    var farmId = photo.farm;
+    var serverId = photo.server;
+    var id = photo.id;
+    var oSecret = photo.secret;
+    $photos.append(
+      "<li><img src='" + 
+      "https://farm{}.staticflickr.com/{}/{}_{}.jpg".format(farmId, serverId, id, oSecret) + 
+      "'></li>");
+  });
 }
