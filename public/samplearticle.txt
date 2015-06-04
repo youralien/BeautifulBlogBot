@@ -1,10 +1,6 @@
-articles = [
-{
-	text: """
-
 I was born into family of lower middle class .We are two girls and I'm the Elder one.- Dad and his family are against Girls education and career. 
 
-I was consistently class topper and excelled in many extra-curricular, But always been put down  - \" Learn cooking and home cooking better than all these \". My mom kept on telling me education and job are the only way out of this rat hole. She was financially weak, but gave me all the mental courage she can and support with the very little money she had - like buying me a good pen to write exams etc
+I was consistently class topper and excelled in many extra-curricular, But always been put down  - " Learn cooking and home cooking better than all these ". My mom kept on telling me education and job are the only way out of this rat hole. She was financially weak, but gave me all the mental courage she can and support with the very little money she had - like buying me a good pen to write exams etc
 
 
 Everything was a struggle - even getting a notebook to do my homework. I remember having a stapled notebook from the recycled papers that were pre-printed on one side and has one side blank. No pocket money any-day. Was always mouth watering for snacks, nice food wherever I see them :-)
@@ -23,8 +19,3 @@ Fast forward - Been in USA for 10 years now, recently have interviewed with Goog
 Got a house for my parents with all facilities. Took them for tour all over USA  and they are super excited to taste luxury - that too from a daughter who is a liability
 
 Its OK to be be poor in economic status - This Will be temporary. But never get poor in your confidence, ambition, hard work and persistence . The later is what we need to dread about and not the former
-
-"""
-	}, 
-
-]
