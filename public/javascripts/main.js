@@ -11,9 +11,9 @@ function registerSubmitHandlers () {
   
   $editor.submit(function(event) {
     event.preventDefault();
-    var editor = event.target;
-
-    $.post('/analyzeText', {"textContent": editor.textContent}, function(data) {
+    textContent = $("textarea").attr('textContent');
+    $.post('/analyzeText', {"textContent": textContent}, function(data) {
+      alert(data.topTopics);
       data.topTopics.forEach(function(topic) {
 
         $.get('/search/flickr', {textTag: topic}, function(searchResult) {
@@ -46,6 +46,7 @@ String.prototype.format = function () {
 
 function appendPhotos(data) {
   $photos = $("#photos");
+  $photos.empty()
   data.photos.photo.forEach(function(photo) {
     $photos.append(
       "<li><img src='{}'></li>".format(getFlickrPhotoUrl(photo))
