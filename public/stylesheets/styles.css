@@ -32,9 +32,23 @@ div#nav h1 {
 	margin: 0 20px 0 15px;
 }
 
+li {
+	list-style: none;
+}
 /* main div */
 div#main {
 	width: 700px;
+	margin: 0 auto;
+}
+
+div.photos li.photo {
+	display: block;
+	margin: 0 auto;
+	line-height: 0;
+	margin-bottom: 30px;
+}
+.centered {
+	display: block;
 	margin: 0 auto;
 }
 

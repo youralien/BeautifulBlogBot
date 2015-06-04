@@ -46,9 +46,9 @@ function appendPhotos(data) {
   $photos = $("#photos");
   $photos.empty()
   data.photos.photo.forEach(function(photo) {
-    $photos.append(
-      "<li><img src='{}'></li>".format(getFlickrPhotoUrl(photo))
-    );
+    flickrPhotoUrl = getFlickrPhotoUrl(photo);
+    photoPartial = Handlebars.templates["photo"];
+    $photos.append(photoPartial({"photoUrl": flickrPhotoUrl}));
   });
 }
 
