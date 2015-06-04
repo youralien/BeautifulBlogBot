@@ -11,11 +11,15 @@ function registerSubmitHandlers () {
   
   $editor.submit(function(event) {
     event.preventDefault();
-    $textarea = $("textarea")
+    $textarea = $("textarea#inputText")
     textContent = $textarea.html();
     if (textContent) {    
       $.post('/analyzeText', {"textContent": textContent}, function(data) {
-        alert(data.topTopics);
+        topicsPartial = Handlebars.templates["topTopics"]
+        
+        $(topicsPartial({
+          "topTopics": data.topTopics.join(' ')
+        })).insertBefore(".photos")
         $.get('/search/flickr', {"topTopics": data.topTopics}, function(searchResult) {
           appendPhotos(searchResult);
         });
@@ -30,7 +34,7 @@ function registerSubmitHandlers () {
       url : "samplearticle.txt",
       dataType: "text",
       success : function (data) {
-        var $textarea = $("textarea")
+        var $textarea = $("textarea#inputText")
         $textarea.html(data);
       }
     });
