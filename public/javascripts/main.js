@@ -1,17 +1,3 @@
-// // scope all jquery objects
-// // ...kitchen page
-// var $kitchen; // all forms
-
-// // ...ingredients page
-// var $inStock; // in stock forms
-// var $outOfStock; // out of stock forms
-// var $editIngr; // edit buttons
-// var $addIngr; // add ingredient form
-
-// // ...order page
-// var $order; // form
-// var $orderOpt; // ingredient checkboxes
-
 var $editor;
 
 // run registerSubmitHandlers to initialize
@@ -36,12 +22,6 @@ function registerSubmitHandlers () {
       })
     })
   });
-  // $kitchen.submit(HANDLERS.makeSubmitHandler('fulfilled', CALLBACKS.success.orderFulfilled));
-  // $inStock.submit(HANDLERS.makeSubmitHandler('markOutOfStock', CALLBACKS.success.toggleIngredient));
-  // $outOfStock.submit(HANDLERS.makeSubmitHandler('markInStock', CALLBACKS.success.toggleIngredient));
-  // $addIngr.submit(HANDLERS.makeSubmitHandler('addIngredient', CALLBACKS.success.newIngredient, true));
-  // $editIngr.click(HANDLERS.click.edit);
-  // $orderOpt.click(HANDLERS.click.orderOpt);
 }
 
 // To have similar functionality as Python's String.format function
