@@ -22,6 +22,18 @@ function registerSubmitHandlers () {
       })
     })
   });
+
+  $("#testArticlePopulate").click(function(event) {
+    $.ajax(
+    {
+      url : "samplearticle.txt",
+      dataType: "text",
+      success : function (data) {
+        $("textarea").attr("textContent", data);
+      }
+    });
+  });
+
 }
 
 // To have similar functionality as Python's String.format function
@@ -35,13 +47,33 @@ String.prototype.format = function () {
 function appendPhotos(data) {
   $photos = $("#photos");
   data.photos.photo.forEach(function(photo) {
-    var farmId = photo.farm;
-    var serverId = photo.server;
-    var id = photo.id;
-    var oSecret = photo.secret;
     $photos.append(
-      "<li><img src='" + 
-      "https://farm{}.staticflickr.com/{}/{}_{}.jpg".format(farmId, serverId, id, oSecret) + 
-      "'></li>");
+      "<li><img src='{}'></li>".format(getFlickrPhotoUrl(photo))
+    );
   });
+}
+
+function topPhotoUrl(data) {
+  var photo = data.photos.photo[0];
+  return getFlickrPhotoUrl(photo)
+}
+
+function getFlickrPhotoUrl(photo) {
+  /*
+  getFlickrPhotoUrl
+
+  Arguments
+  ---------
+  photo: a single photo object in the "photo" array of the Flickr Search API JSON response
+
+  Returns
+  -------
+  photoUrl: the photoUrl that can be linked with <img src={{photoUrl}}> in HTML for example
+   */
+  var farmId = photo.farm;
+  var serverId = photo.server;
+  var id = photo.id;
+  var oSecret = photo.secret;
+  var photoUrl =  "https://farm{}.staticflickr.com/{}/{}_{}.jpg".format(farmId, serverId, id, oSecret)
+  return photoUrl;
 }
