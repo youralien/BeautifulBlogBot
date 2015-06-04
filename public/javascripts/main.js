@@ -14,12 +14,10 @@ function registerSubmitHandlers () {
     textContent = $("textarea").attr('textContent');
     $.post('/analyzeText', {"textContent": textContent}, function(data) {
       alert(data.topTopics);
-      data.topTopics.forEach(function(topic) {
+      $.get('/search/flickr', {"topTopics": data.topTopics}, function(searchResult) {
+        appendPhotos(searchResult);
+      });
 
-        $.get('/search/flickr', {textTag: topic}, function(searchResult) {
-          appendPhotos(searchResult);
-        })
-      })
     })
   });
 
