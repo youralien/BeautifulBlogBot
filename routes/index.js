@@ -12,7 +12,7 @@ var flickrOptions = require(path.join('..', '/flickrOptions.js'));
 var routes = {};
 
 routes.home = function(req, res) {
-	res.render('home', {"message": "Yea Let's Do This"});
+	res.render('home');
 };
 
 routes.beautiful = function(req, res) {

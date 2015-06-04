@@ -11,14 +11,21 @@ function registerSubmitHandlers () {
   
   $editor.submit(function(event) {
     event.preventDefault();
-    textContent = $("textarea").attr('textContent');
-    $.post('/analyzeText', {"textContent": textContent}, function(data) {
-      alert(data.topTopics);
-      $.get('/search/flickr', {"topTopics": data.topTopics}, function(searchResult) {
-        appendPhotos(searchResult);
-      });
+    $textarea = $("textarea#inputText")
+    textContent = $textarea.html();
+    if (textContent) {    
+      $.post('/analyzeText', {"textContent": textContent}, function(data) {
+        topicsPartial = Handlebars.templates["topTopics"]
+        
+        $(topicsPartial({
+          "topTopics": data.topTopics.join(' ')
+        })).insertBefore(".photos")
+        $.get('/search/flickr', {"topTopics": data.topTopics}, function(searchResult) {
+          appendPhotos(searchResult);
+        });
 
-    })
+      })
+    }
   });
 
   $("#testArticlePopulate").click(function(event) {
@@ -27,7 +34,8 @@ function registerSubmitHandlers () {
       url : "samplearticle.txt",
       dataType: "text",
       success : function (data) {
-        $("textarea").attr("textContent", data);
+        var $textarea = $("textarea#inputText")
+        $textarea.html(data);
       }
     });
   });
