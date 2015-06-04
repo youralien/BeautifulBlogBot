@@ -39,7 +39,7 @@ routes.searchFlickr = function(req, res) {
 	    text: searchText, 
 	    sort: "interestingness-desc",
 	    content_type: 1, // photos
-	    per_page: 15
+	    per_page: 50
 	  }, function(err, searchResult) {
 	    if(err) { throw new Error(err); }
 	    res.status(200).json(searchResult);
@@ -116,7 +116,6 @@ function getTopTopics(sortedTextTags, numTop) {
 }
 
 function generateSearchText(topTopics) {
-	topTopics.push('minimalist');
 	var searchText = topTopics.join(' ');
 	return searchText; 
 }
