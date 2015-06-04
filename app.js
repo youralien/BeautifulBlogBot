@@ -22,6 +22,7 @@ app.set('view engine', 'handlebars');
 
 /* ROUTING */
 app.get('/', index.home);
+app.get('/beautiful', index.beautiful);
 app.post('/analyzeText', index.analyzeText);
 app.get('/search/flickr', index.searchFlickr);
 
