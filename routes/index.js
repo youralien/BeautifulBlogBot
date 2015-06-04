@@ -15,6 +15,10 @@ routes.home = function(req, res) {
 	res.render('home', {"message": "Yea Let's Do This"});
 };
 
+routes.beautiful = function(req, res) {
+	res.render('beautiful', {"pageContent": "Yea Let's Do This"});
+};
+
 routes.analyzeText = function(req, res) {
 	var textContent = req.body.textContent;
 	indico.textTags(textContent)

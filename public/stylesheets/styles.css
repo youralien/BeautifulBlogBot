@@ -34,6 +34,18 @@ div#nav h1 {
 
 /* main div */
 div#main {
-	width: 500px;
-	margin-left: 15px;
+	width: 700px;
+	margin: 0 auto;
+}
+
+.articleContent {
+	position: relative;
+	font-size: 22px;
+	line-height: 1.5;
+	padding-top: 65px;
+	margin-bottom: 30px;
+	font-family: "freight-text-pro",Georgia,Cambria,"Times New Roman",Times,serif;
+	letter-spacing: .01rem;
+	font-weight: 400;
+	font-style: normal;
 }
