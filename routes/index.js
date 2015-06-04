@@ -24,7 +24,7 @@ routes.analyzeText = function(req, res) {
 	indico.textTags(textContent)
 	  .then(function(tagProbas) {
 	    var sortedTextTags = sortObject(tagProbas);
-	    var topTopics = getTopTopics(sortedTextTags, 5);
+	    var topTopics = getTopTopics(sortedTextTags, 3);
 	    res.status(200).json({"topTopics": topTopics});
 	  }).catch(function(err) {
 	    console.warn(err);
@@ -33,9 +33,13 @@ routes.analyzeText = function(req, res) {
 }
 
 routes.searchFlickr = function(req, res) {
+	var searchText = generateSearchText(req.query.topTopics);
 	Flickr.authenticate(flickrOptions, function(error, flickr) {
 	  flickr.photos.search({
-	    text: req.query.textTag
+	    text: searchText, 
+	    sort: "interestingness-desc",
+	    content_type: 1, // photos
+	    per_page: 15
 	  }, function(err, searchResult) {
 	    if(err) { throw new Error(err); }
 	    res.status(200).json(searchResult);
@@ -104,9 +108,15 @@ function getTopTopics(sortedTextTags, numTop) {
   	console.warn("sortedTextTags should be an array of sortedTextTags")
   	return
   }
-  if (numTop > sortedTextTags) {
+  if (numTop > sortedTextTags.length) {
   	console.warn("numTop is greater in length than sortedTextTags. Using all tags")
   }
   topTopics = sortedTextTags.slice(0, numTop).map(function(element) {return element[0]})
   return topTopics;
+}
+
+function generateSearchText(topTopics) {
+	topTopics.push('minimalist');
+	var searchText = topTopics.join(' ');
+	return searchText; 
 }
