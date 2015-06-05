@@ -12,7 +12,7 @@ function registerSubmitHandlers () {
   $editor.submit(function(event) {
     event.preventDefault();
     $textarea = $("textarea#inputText")
-    textContent = $textarea.html();
+    textContent = $textarea.val();
     if (textContent) {    
       $.post('/analyzeText', {"textContent": textContent}, function(data) {
         topicsPartial = Handlebars.templates["topTopics"]
