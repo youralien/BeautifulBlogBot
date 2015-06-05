@@ -36,7 +36,7 @@ routes.searchFlickr = function(req, res) {
 	Flickr.authenticate(flickrOptions, function(error, flickr) {
 	  flickr.photos.search({
 	    tags: req.query.topTopics,
-	    sort: "relevance",
+	    sort: "relevance", // relevance, interestingness-desc
 	    content_type: 1, // photos
 	    /* extras
 	     - url_l, url_c, url_m, url_n == large, kinda-large, medium, small
