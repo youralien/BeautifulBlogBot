@@ -1,7 +1,11 @@
+<h4>Input content of your choice</h4>
 <form id="editor" action="/analyzeAnswers">
 	<textarea required form="editor" class="materialize-textarea" id="inputText" placeholder="Copy the content of your blog article here.  Then, be amazed by the relevant designs and images Beautiful Blog Bot recommends!"></textarea>
-	<input type="submit"></input>
+	<button class="btn waves-effect waves-light" type="submit" name="action">Find Images
+    <i class="mdi-content-send right"></i>
+  </button>
 </form>
+<h4>or try example content below.</h4>
 {{> sampleArticles}}
 <div class="photos">
 	<ul id="photos">
