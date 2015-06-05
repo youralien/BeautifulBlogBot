@@ -21,11 +21,20 @@ routes.beautiful = function(req, res) {
 
 routes.analyzeText = function(req, res) {
 	var textContent = req.body.textContent;
-	indico.textTags(textContent)
-	  .then(function(tagProbas) {
-	    var sortedTextTags = sortObject(tagProbas);
-	    var topTopics = getTopTopics(sortedTextTags, 3);
-	    res.status(200).json({"topTopics": topTopics});
+	var paragraphs = splitByParagraphs(textContent); 
+
+	// batch request
+	indico.batchTextTags(paragraphs)
+	  .then(function(batchTagProbas) {
+	  	var batchTopTopics = [];
+	    batchTagProbas.forEach(function(tagProbas) {
+		    var sortedTextTags = sortObject(tagProbas);
+		    var topTopics = getTopTopics(sortedTextTags, 1);
+	    	batchTopTopics.push(topTopics);
+    	})
+    	redundantDocumentTopTopics = getAllTopicOccurances(batchTopTopics);
+	    documentTopTopics = _.uniq(redundantDocumentTopTopics);
+	    res.status(200).json({"topTopics": documentTopTopics});	    	
 	  }).catch(function(err) {
 	    console.warn(err);
 	    return;
@@ -124,4 +133,21 @@ function getTopTopics(sortedTextTags, numTop) {
 function generateSearchText(topTopics) {
 	var searchText = topTopics.join(' ');
 	return searchText; 
+}
+
+function splitByParagraphs(textContent) {
+	return textContent.split(new RegExp('\r?\n?\\r?\\n','g'));
+}
+
+function getAllTopicOccurances(batchTopTopics) {
+	/*
+	Arguments
+	---------
+	batchTopTopics: array like, shape (n_paragraphs, n_topics_per_paragraph)
+	
+	Returns
+	-------
+	allTopicOccurances: array
+	 */
+	return batchTopTopics.reduce(function(a, b) { return a.concat(b) })
 }
