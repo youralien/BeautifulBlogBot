@@ -42,6 +42,9 @@ function registerSubmitHandlers () {
   $("#testArticlePopulate2").click(function() {
     testArticlePopulate(2);
   });
+  $("#testArticlePopulate3").click(function() {
+    testArticlePopulate(3);
+  });
 
 }
 
