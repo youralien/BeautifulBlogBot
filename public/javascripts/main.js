@@ -18,7 +18,7 @@ function registerSubmitHandlers () {
         topicsPartial = Handlebars.templates["topTopics"]
         
         $(topicsPartial({
-          "topTopics": data.topTopics.join(' ')
+          "topTopics": data.topTopics
         })).insertBefore(".photos")
         $.get('/search/flickr', {"topTopics": data.topTopics}, function(searchResult) {
           appendPhotos(searchResult);
@@ -54,9 +54,13 @@ function appendPhotos(data) {
   $photos = $("#photos");
   $photos.empty()
   data.photos.photo.forEach(function(photo) {
-    flickrPhotoUrl = getFlickrPhotoUrl(photo);
+    flickrPhotoUrl = photo.url_m;
+    ownername = photo.ownername;
     photoPartial = Handlebars.templates["photo"];
-    $photos.append(photoPartial({"photoUrl": flickrPhotoUrl}));
+    $photos.append(photoPartial({
+      "photoUrl": flickrPhotoUrl,
+      "ownername": ownername
+    }));
   });
 }
 
@@ -68,6 +72,9 @@ function topPhotoUrl(data) {
 function getFlickrPhotoUrl(photo) {
   /*
   getFlickrPhotoUrl
+
+  EDIT: using different params for the flickr.photos.search API, we can get
+  the url passed to us without having to calculate it ourselves.
 
   Arguments
   ---------
