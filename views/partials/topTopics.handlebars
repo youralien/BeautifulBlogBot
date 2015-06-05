@@ -1,11 +1,8 @@
 <div>
-	<div>
-		<label for="topTopics">Bot thinks your text is about </label>
-	</div>
-	<div>
-		<input id="topTopics" value="{{topTopics}}">
-	</div>
-	<div>
-		Searching...
-	</div>
+	<ul class="collection with-header">
+		<li class="collection-header"><h4>Article Topics</h4></li>
+		{{#each topTopics}}
+			<li class="collection-item">{{this}}</li>
+		{{/each}}
+	</ul>
 </div>
