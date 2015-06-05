@@ -35,17 +35,17 @@ routes.analyzeText = function(req, res) {
 routes.searchFlickr = function(req, res) {
 	Flickr.authenticate(flickrOptions, function(error, flickr) {
 	  flickr.photos.search({
-	    tags: req.query.topTopics,
-	    sort: "relevance", // relevance, interestingness-desc
-	    content_type: 1, // photos
+	      tags: req.query.topTopics
+	    , sort: "relevance" // relevance, interestingness-desc
+	    , content_type: 1 // photos
 	    /* extras
 	     - url_l, url_c, url_m, url_n == large, kinda-large, medium, small
 	     - url_o == original big image
 	     */
-	    extras: ["description","owner_name","url_l","url_c","url_m","url_n"],
-	    per_page: 50,
+	    , extras: ["description","owner_name","url_l","url_c","url_m","url_n"]
+	    , per_page: 50
 	    // https://www.flickr.com/services/api/flickr.photos.licenses.getInfo.html
-	    license: "1,2,3,4,5,6,7,8", // everything but all-rights-reserved
+	    // , license: "1,2,3,4,5,6,7,8", // everything but all-rights-reserved
 	  }, function(err, searchResult) {
 	    if(err) { throw new Error(err); }
 	    res.status(200).json(searchResult);
