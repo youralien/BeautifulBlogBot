@@ -28,18 +28,28 @@ function registerSubmitHandlers () {
     }
   });
 
-  $("#testArticlePopulate").click(function(event) {
-    $.ajax(
-    {
-      url : "samplearticle.txt",
-      dataType: "text",
-      success : function (data) {
-        var $textarea = $("textarea#inputText")
-        $textarea.html(data);
-      }
-    });
+  $("#testArticlePopulate0").click(function() {
+    testArticlePopulate(0);
+  });
+  $("#testArticlePopulate1").click(function() {
+    testArticlePopulate(1);
+  });
+  $("#testArticlePopulate2").click(function() {
+    testArticlePopulate(2);
   });
 
+}
+
+function testArticlePopulate(n) {
+  $.ajax(
+  {
+    url : "samplearticle{}.txt".format(n),
+    dataType: "text",
+    success : function (data) {
+      var $textarea = $("textarea#inputText")
+      $textarea.html(data);
+    }
+  });
 }
 
 // To have similar functionality as Python's String.format function
