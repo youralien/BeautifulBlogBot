@@ -11,6 +11,9 @@ templates['photo'] = template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(
     + alias3(((helper = (helper = helpers.photoUrl || (depth0 != null ? depth0.photoUrl : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"photoUrl","hash":{},"data":data}) : helper)))
     + "\">\n	</div>\n</li>";
 },"useData":true});
+templates['sampleArticles'] = template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
+    return "<button id=\"testArticlePopulate0\">populate article 0</button>\n<button id=\"testArticlePopulate1\">populate article 1</button>\n<button id=\"testArticlePopulate2\">populate article 2</button>\n";
+},"useData":true});
 templates['topTopics'] = template({"1":function(depth0,helpers,partials,data) {
     return "			<li class=\"collection-item\">"
     + this.escapeExpression(this.lambda(depth0, depth0))
