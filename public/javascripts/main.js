@@ -17,9 +17,14 @@ function registerSubmitHandlers () {
       $.post('/analyzeText', {"textContent": textContent}, function(data) {
         topicsPartial = Handlebars.templates["topTopics"]
         
+        // clear previous topTopics, if it exists
+        $("#topTopicsPartial").remove()
+
+        // show relevant topics extracted using indico TextTags
         $(topicsPartial({
           "topTopics": data.topTopics
         })).insertBefore(".photos")
+        
         $.get('/search/flickr', {"topTopics": data.topTopics}, function(searchResult) {
           appendPhotos(searchResult);
         });
