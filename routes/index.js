@@ -3,8 +3,6 @@ var _ = require('underscore');
 var path = require("path");
 var indico = require('indico.io');
 indico.apiKey = process.env.INDICO_API_KEY;
-var shutterstock = require('shutterstock');
-var shutterstockAPI = shutterstock.v2(require("./shutterStockAuth"));
 var Flickr = require('flickrapi');
 var flickrOptions = require(path.join('..', '/flickrOptions.js'));
 
