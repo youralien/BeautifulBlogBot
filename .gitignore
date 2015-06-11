@@ -29,6 +29,4 @@ node_modules
 #flickr data dir
 data/
 
-#flickr options/auth
-flickrOptions.js
 
