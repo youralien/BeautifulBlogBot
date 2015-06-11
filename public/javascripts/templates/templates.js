@@ -1,5 +1,8 @@
 (function() {
   var template = Handlebars.template, templates = Handlebars.templates = Handlebars.templates || {};
+templates['loader'] = template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
+    return "<div id=\"loaderPartial\">\n    <h4>Images Loading...</h4>\n    <div class=\"progress\">\n      <div class=\"indeterminate\"></div>\n    </div>\n</div>\n\n        \n\n";
+},"useData":true});
 templates['photo'] = template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
     var helper, alias1=helpers.helperMissing, alias2="function", alias3=this.escapeExpression;
 
