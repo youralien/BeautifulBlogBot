@@ -47,12 +47,13 @@ routes.searchFlickr = function(req, res) {
 	      tags: req.query.topTopics
 	    , sort: "relevance" // relevance, interestingness-desc
 	    , content_type: 1 // photos
+	    , safe_search: 1
 	    /* extras
 	     - url_l, url_c, url_m, url_n == large, kinda-large, medium, small
 	     - url_o == original big image
 	     */
 	    , extras: ["description","owner_name","url_l","url_c","url_m","url_n"]
-	    , per_page: 50
+	    , per_page: 200
 	    // https://www.flickr.com/services/api/flickr.photos.licenses.getInfo.html
 	    // , license: "1,2,3,4,5,6,7,8", // everything but all-rights-reserved
 	  }, function(err, searchResult) {
